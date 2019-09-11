@@ -1,0 +1,27 @@
+The saturate function has been implemented.
+
+The MovieLab is able to make a movie from an existing yuv file or from a single image with a filter applied to multiple iterations of the image.  The movie lab is created by using linked lists to create a list of images.
+
+The first task while working on this lab was to complete the ImageList functions.  The CreateImageEntry allocates memory to an IENTRY pointer which will be used to store entry pointers and an RGB/YUV image.  The CreateImageList allocates memory to an ILIST pointer which contains a list of images.
+
+The DeleteImageEntry function checks if either an RGB/YUV image exists and if it does, frees it and sets the image pointer to null.  The DeleteImageList function iterates through every entry by using two temporary pointers that act as pointers for the current and next frame.  This then iterates through each entry and deletes the entry using the DeleteImageEntry function.
+
+The AppendImage functions for both RGB and YUV allocate memory for the new entry and set the pointer to the inputted image.  It then adds the entry to the list and sets the entry pointers to previous and next entries.
+
+The ReverseImageList goes uses two temporary pointers that act as the current and next entry.  The function iterates through each frame using a while loop and switches the values for the next and last pointers.  The first and last pointers of the image list are also switched.
+
+The next task was to implement the Movie.c functions.  The CreateMovie function allocates memory for the movie struct and sets its pointers to null. It then allocates memory for the Frames pointer within the movie struct.  
+
+The DeleteMovie function frees memory of the frames within movie and then frees the movie.
+
+The MovieLength function gets the length of the Frames list.
+
+The MovieWidth and MovieHeight functions checks the first image within the Frames list and gets the width and height of that image.  Since the movie will maintain the same size throughout, it is sufficient to get the height and witdth of the first entry.
+
+The RGB and YUV conversions use temporary pointers that act as the current and next pointers for each frame.  The conversions use a while loop to iterate through each frame.  Depending on which conversion it is, the while loop creates either rgb or yuv image, does the appropriate rgb to yuv pixel conversions and appends the pixels to the new image.  After the new image has been made, the old rgb/yuv image is freed and the loop goes to the next entry.
+
+The next task was to implement the IterativeFilter.  Inside the iterative filter, a blank movie is created with the dimensions of the given image. A temporary image pointer is made.  There are two cases: when the start > end and start < end.  The only difference between the two cases is that the for loops will either increment or decrement.  Inside either for loop, the temporary image variable is set to CopyImage(image).  The temporary image is then filtered through the filter function.  the image is then appended into the movie.  After the for loop applies filter to all the created images, the RGB2YUV conversion is applied to the whole movie to turn it into YUV format.  The Iterative Filter returns a movie.
+
+Lastly, the command line arguments were implemented in the main.  The main uses a for loop that iterates through the argv[i] arguments and uses if/else statements to check the argument given.  The program then executes depending on the arguments given.
+
+Additionally, the saturate function was implemented.  I used the code from Lab 4 for the saturate and inserted the saturate function inside the DIPs.c file.  The only adjustment was multiplying the input float by 10 since the command line takes values of one digit or decimal numbers. The IterativeFilter uses the saturate.  The saturate function can then be called by using -saturate. 
